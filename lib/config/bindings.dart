@@ -1,10 +1,12 @@
 import 'package:get/get.dart';
 
-import '../services/tractician.service.dart';
+import '../controllers/controllers.dart';
+import '../services/services.dart';
 
 class AppBindings extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut(() => TracticianService());
+    Get.lazyPut(() => TracticianService(), fenix: true);
+    Get.lazyPut(() => AssetTreeController(), fenix: true);
   }
 }

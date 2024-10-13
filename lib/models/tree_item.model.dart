@@ -1,18 +1,25 @@
+import 'package:animated_tree_view/tree_view/tree_node.dart';
+
 import '../constants/constants.dart';
+import '../styles/styles.dart';
 
 enum ItemType { location, asset, component }
 
 abstract class TreeItem {
+  late final TreeNode<TreeItem> node;
   final String id;
   final String name;
-  final Set<TreeItem> children;
   final String? parentId;
 
   TreeItem({
     required this.id,
     required this.name,
     this.parentId,
-  }) : children = {};
+  }) {
+    node = TreeNode(data: this, key: id);
+  }
+
+  String get icon;
 }
 
 class Location extends TreeItem {
@@ -29,6 +36,9 @@ class Location extends TreeItem {
       parentId: json['parentId'] ?? json['locationId'],
     );
   }
+
+  @override
+  String get icon => AppIcons.location;
 }
 
 class Asset extends TreeItem {
@@ -55,6 +65,9 @@ class Asset extends TreeItem {
       parentId: json['parentId'] ?? json['locationId'],
     );
   }
+
+  @override
+  String get icon => AppIcons.asset;
 }
 
 class Component extends Asset {
@@ -68,4 +81,7 @@ class Component extends Asset {
     required this.sensorStatus,
     super.parentId,
   });
+
+  @override
+  String get icon => AppIcons.component;
 }

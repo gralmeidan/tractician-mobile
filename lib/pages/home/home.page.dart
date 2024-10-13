@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
+import '../../components/app_bar.dart';
 import '../../models/models.dart';
 import '../../routes/routes.dart';
 import '../../services/services.dart';
@@ -27,15 +28,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: AppColors.appBar,
-        title: Center(
-          child: SvgPicture.asset(
-            AppIcons.logo,
-            height: 17,
-          ),
-        ),
-      ),
+      appBar: const DefaultAppBar(canPop: false),
       body: FutureBuilder(
         future: future,
         builder: (context, snapshot) {

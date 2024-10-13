@@ -11,5 +11,9 @@ abstract class AppRoutes {
       name: home,
       page: () => const HomePage(),
     ),
+    GetPage(
+      name: assets,
+      page: () => const AssetsPage(),
+    ),
   ];
 }
