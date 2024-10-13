@@ -1,0 +1,1 @@
+export 'company.model.dart';
