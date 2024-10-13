@@ -2,6 +2,7 @@ import 'package:animated_tree_view/animated_tree_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../constants/constants.dart';
 import '../../../models/models.dart';
 import '../../../styles/styles.dart';
 
@@ -14,6 +15,18 @@ class TreeNodeItem extends StatelessWidget {
   Widget build(BuildContext context) {
     if (node.data == null) {
       return const SizedBox();
+    }
+
+    Widget? sensor;
+
+    if (node.data! is Component) {
+      final component = node.data! as Component;
+
+      sensor = Icon(
+        component.sensorType.icon,
+        color: component.sensorStatus.color,
+        size: component.sensorType.icon == Icons.circle ? 12 : 20,
+      );
     }
 
     return Padding(
@@ -31,11 +44,16 @@ class TreeNodeItem extends StatelessWidget {
           const SizedBox(width: 6),
           Expanded(
             child: Wrap(
+              crossAxisAlignment: WrapCrossAlignment.center,
               children: [
                 Text(
                   node.data!.name,
                   style: AppTextStyles.labelMedium,
                 ),
+                if (sensor != null) ...[
+                  const SizedBox(width: 8),
+                  sensor,
+                ],
               ],
             ),
           ),

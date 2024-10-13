@@ -1,15 +1,19 @@
+import 'package:flutter/material.dart';
+
+import '../styles/styles.dart';
+
 enum SensorType {
   energy,
   vibration,
 }
 
 extension SensorTypeExtension on SensorType {
-  String get name {
+  IconData get icon {
     switch (this) {
       case SensorType.energy:
-        return 'energy';
+        return Icons.bolt_outlined;
       case SensorType.vibration:
-        return 'vibration';
+        return Icons.circle;
     }
   }
 }
@@ -33,12 +37,12 @@ enum SensorStatus {
 }
 
 extension SensorStatusExtension on SensorStatus {
-  String get name {
+  Color get color {
     switch (this) {
       case SensorStatus.operating:
-        return 'operating';
+        return AppColors.green;
       case SensorStatus.alert:
-        return 'alert';
+        return AppColors.red;
     }
   }
 }

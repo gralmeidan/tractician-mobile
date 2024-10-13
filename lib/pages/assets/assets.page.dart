@@ -81,7 +81,6 @@ class AssetsPage extends GetView<AssetTreeController> {
                 ],
               ),
             ),
-            // separator
             const SliverToBoxAdapter(
               child: Divider(
                 color: AppColors.gray200,
