@@ -1,14 +1,36 @@
 import 'package:animated_tree_view/tree_view/tree_node.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../constants/constants.dart';
 import '../models/models.dart';
 import '../services/services.dart';
+
+class TreeFilter {
+  final TextEditingController controller = TextEditingController();
+  final Rx<SensorType?> sensorType = Rx(null);
+  final Rx<SensorStatus?> sensorStatus = Rx(null);
+
+  void clear() {
+    controller.clear();
+    sensorType.value = null;
+    sensorStatus.value = null;
+  }
+
+  void dispose() {
+    controller.dispose();
+    sensorType.close();
+    sensorStatus.close();
+  }
+}
 
 class AssetTreeController extends GetxController {
   TracticianService get _service => TracticianService.to;
 
   final Rx<TreeNode<TreeItem>?> tree = Rx(null);
   final RxBool isLoading = true.obs;
+
+  final TreeFilter filters = TreeFilter();
 
   void _processItem(
     TreeItem item,

@@ -8,6 +8,13 @@ sealed class AppTextStyles {
     fontFamily: 'Roboto',
   );
 
+  static const buttonSmall = TextStyle(
+    color: Colors.white,
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    fontFamily: 'Roboto',
+  );
+
   static const labelMedium = TextStyle(
     color: Colors.black,
     fontSize: 14,
