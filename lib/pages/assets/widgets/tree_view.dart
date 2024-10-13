@@ -1,10 +1,8 @@
-import 'package:animated_tree_view/animated_tree_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../controllers/controllers.dart';
 import '../../../models/models.dart';
-import '../../../styles/styles.dart';
 import 'widgets.dart';
 
 class TreeView extends StatefulWidget {
@@ -17,34 +15,27 @@ class TreeView extends StatefulWidget {
 class _TreeViewState extends State<TreeView> {
   final AssetTreeController controller = Get.find();
 
-  TreeNode<TreeItem> root = TreeNode<TreeItem>.root();
+  Set<TreeItem> root = RxSet();
 
   @override
   void initState() {
     super.initState();
-    root = controller.tree.value!;
+    root = controller.root;
 
-    controller.tree.listen((tree) {
-      if (tree != null) {
-        setState(() {
-          root = tree;
-        });
-      }
+    controller.root.listen((tree) {
+      setState(() {
+        root = tree;
+      });
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return SliverTreeView.simpleTyped<TreeItem, TreeNode<TreeItem>>(
-      tree: root,
-      expansionIndicatorBuilder: noExpansionIndicatorBuilder,
-      showRootNode: false,
-      indentation: const Indentation(
-        style: IndentStyle.squareJoint,
-        color: AppColors.gray200,
-      ),
-      builder: (context, item) {
-        return TreeNodeItem(node: item);
+    return SliverList.builder(
+      itemCount: controller.root.length,
+      itemBuilder: (context, index) {
+        final item = controller.root.elementAt(index);
+        return TreeNodeItem(item: item);
       },
     );
   }

@@ -1,7 +1,5 @@
 import 'dart:async';
 
-import 'package:animated_tree_view/animated_tree_view.dart';
-import 'package:animated_tree_view/tree_view/tree_node.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -50,14 +48,13 @@ class TreeFilter {
 class AssetTreeController extends GetxController {
   TracticianService get _service => TracticianService.to;
 
-  Set<TreeItem> base = {};
-  final Rx<TreeNode<TreeItem>?> tree = Rx(null);
+  RxSet<TreeItem> base = RxSet();
+  RxSet<TreeItem> root = RxSet();
   final RxBool isLoading = true.obs;
 
   final TreeFilter filters = TreeFilter();
 
-  TreeNode<TreeItem>? _filterNode(TreeItem item) {
-    final newNode = TreeNode(data: item, key: item.id);
+  TreeItem? _filterNode(TreeItem item) {
     bool result = false;
 
     if (filters.matches(item)) {
@@ -68,16 +65,17 @@ class AssetTreeController extends GetxController {
       final filtered = _filterNode(child);
 
       if (filtered != null) {
-        newNode.add(filtered);
         result = true;
       }
     }
 
-    return result ? newNode : null;
+    item.visible = result;
+
+    return result ? item : null;
   }
 
   void processFilters() {
-    final filtered = TreeNode<TreeItem>.root();
+    final filtered = <TreeItem>{};
 
     for (final item in base) {
       final filteredChild = _filterNode(item);
@@ -87,40 +85,35 @@ class AssetTreeController extends GetxController {
       }
     }
 
-    tree.value = filtered;
-    tree.trigger(filtered);
+    root.assignAll(filtered);
+    root.refresh();
   }
 
   void _processItem(
     TreeItem item,
-    Map<String, TreeNode<TreeItem>> items,
-    Map<String, Set<TreeNode<TreeItem>>> orphans,
-    TreeNode<TreeItem> root,
-    Set<TreeItem> base,
+    Map<String, TreeItem> items,
+    Map<String, Set<TreeItem>> orphans,
+    Set<TreeItem> root,
   ) {
-    final node = TreeNode(data: item, key: item.id);
-    items[item.id] = node;
+    items[item.id] = item;
 
     if (orphans.containsKey(item.id)) {
-      for (final item in orphans[item.id]!) {
-        node.add(item);
-        node.data!.children.add(item.data!);
+      for (final child in orphans[item.id]!) {
+        items[item.id]!.children.add(child);
       }
 
       orphans.remove(item.id);
     }
 
     if (item.parentId == null) {
-      root.add(node);
-      base.add(item);
+      root.add(item);
       return;
     }
 
     if (items.containsKey(item.parentId)) {
-      items[item.parentId]!.add(node);
-      items[item.parentId]!.data!.children.add(item);
+      items[item.parentId]!.children.add(item);
     } else {
-      orphans.putIfAbsent(item.parentId!, () => {}).add(node);
+      orphans.putIfAbsent(item.parentId!, () => {}).add(item);
     }
   }
 
@@ -130,24 +123,23 @@ class AssetTreeController extends GetxController {
       _service.getLocations(companyId),
     ]);
 
-    final root = TreeNode<TreeItem>.root();
-    final base = <TreeItem>{};
+    final root = <TreeItem>{};
 
-    final Map<String, TreeNode<TreeItem>> items = {};
-    final Map<String, Set<TreeNode<TreeItem>>> orphans = {};
+    final Map<String, TreeItem> items = {};
+    final Map<String, Set<TreeItem>> orphans = {};
 
     for (final location in locations) {
       final item = Location.fromJson(location as Map<String, dynamic>);
-      _processItem(item, items, orphans, root, base);
+      _processItem(item, items, orphans, root);
     }
 
     for (final asset in assets) {
       final item = Asset.fromJson(asset as Map<String, dynamic>);
-      _processItem(item, items, orphans, root, base);
+      _processItem(item, items, orphans, root);
     }
 
-    this.base = base;
-    tree.value = root;
+    base.assignAll(root);
+    this.root.assignAll(root);
   }
 
   Future<void> _fetchTree() async {

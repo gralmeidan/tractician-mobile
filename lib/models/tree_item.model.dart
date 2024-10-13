@@ -8,6 +8,7 @@ abstract class TreeItem {
   final String name;
   final String? parentId;
   final Set<TreeItem> children = {};
+  bool visible = true;
 
   TreeItem({
     required this.id,
@@ -16,6 +17,10 @@ abstract class TreeItem {
   });
 
   String get icon;
+
+  List<TreeItem> get visibleChildren {
+    return children.where((child) => child.visible).toList();
+  }
 }
 
 class Location extends TreeItem {
