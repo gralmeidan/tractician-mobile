@@ -1,23 +1,19 @@
-import 'package:animated_tree_view/tree_view/tree_node.dart';
-
 import '../constants/constants.dart';
 import '../styles/styles.dart';
 
 enum ItemType { location, asset, component }
 
 abstract class TreeItem {
-  late final TreeNode<TreeItem> node;
   final String id;
   final String name;
   final String? parentId;
+  final Set<TreeItem> children = {};
 
   TreeItem({
     required this.id,
     required this.name,
     this.parentId,
-  }) {
-    node = TreeNode(data: this, key: id);
-  }
+  });
 
   String get icon;
 }

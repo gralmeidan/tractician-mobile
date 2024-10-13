@@ -35,7 +35,7 @@ class TreeNodeItem extends StatelessWidget {
       ),
       child: Row(
         children: [
-          if (!node.data!.node.isLeaf) ...[
+          if (!node.isLeaf) ...[
             ChevronIndicator.rightDown(tree: node),
             const SizedBox(width: 6),
           ] else

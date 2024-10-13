@@ -1,11 +1,9 @@
-import 'package:animated_tree_view/animated_tree_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../components/app_bar.dart';
 import '../../constants/constants.dart';
 import '../../controllers/controllers.dart';
-import '../../models/models.dart';
 import '../../styles/styles.dart';
 import 'widgets/widgets.dart';
 
@@ -48,6 +46,7 @@ class AssetsPage extends GetView<AssetTreeController> {
                         color: AppColors.gray500,
                       ),
                     ),
+                    controller: controller.filters.query,
                     style: AppTextStyles.labelMedium,
                   ),
                   const SizedBox(height: 8),
@@ -87,20 +86,9 @@ class AssetsPage extends GetView<AssetTreeController> {
                 height: 1,
               ),
             ),
-            SliverPadding(
-              padding: const EdgeInsets.all(16),
-              sliver: SliverTreeView.simpleTyped<TreeItem, TreeNode<TreeItem>>(
-                tree: controller.tree.value!,
-                expansionIndicatorBuilder: noExpansionIndicatorBuilder,
-                showRootNode: false,
-                indentation: const Indentation(
-                  style: IndentStyle.squareJoint,
-                  color: AppColors.gray200,
-                ),
-                builder: (context, item) {
-                  return TreeNodeItem(node: item);
-                },
-              ),
+            const SliverPadding(
+              padding: EdgeInsets.all(16),
+              sliver: TreeView(),
             ),
           ],
         );
