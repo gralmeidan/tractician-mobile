@@ -1,16 +1,47 @@
-# tractician
+# Flutter Mobile Developer - Tractician
 
-A new Flutter project.
+Thank you for the opportunity to participate in this challenge. I've kept my answers concise to respect your time, but I'd be happy to elaborate further on any part of the process if needed.
 
-## Getting Started
+## Table of Contents
 
-This project is a starting point for a Flutter application.
+- [Video Preview](#video-preview)
+- [Implementation Details](#implementation-details)
+- [Setup](#setup)
+- [Submission](#submission)
 
-A few resources to get you started if this is your first Flutter project:
+## Video Preview
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+https://github.com/user-attachments/assets/a69fe88e-958f-4a3b-a52d-4660a1bf9550
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Implementation Details
+
+Given more time, I would have enhanced the TreeView component. Specifically, I aimed to implement indentation borders to match the FIGMA design, as well as animations for expanding and collapsing items. These features were beyond the scope of the few hours I had available.
+
+## Setup
+
+1. Clone the repository:
+
+```sh
+git clone https://github.com/tractician/tractician-mobile.git
+```
+
+2. Navigate to the project directory:
+
+```sh
+cd tractician-mobile
+```
+
+3. Install dependencies:
+
+```sh
+flutter pub get
+```
+
+4. Launch with VsCode.
+
+## Submission
+
+Thank you for reviewing my submission. I look forward to your feedback.
+
+Best regards,  
+Geraldo Almeida.
